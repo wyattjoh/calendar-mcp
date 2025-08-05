@@ -11,6 +11,11 @@ import type {
   SearchOptions,
 } from "./types.ts";
 
+/**
+ * Opens a read-only connection to the macOS Calendar database.
+ * @param dbPath - Path to the Calendar database (defaults to ~/Library/Calendars/Calendar.sqlitedb)
+ * @returns Database instance for querying calendar events
+ */
 export const openDatabase = (dbPath: string = CALENDAR_DB_PATH): Database =>
   new Database(dbPath, { readonly: true });
 
@@ -23,6 +28,12 @@ const buildExcludeRescheduledClause = (includeRescheduled: boolean): string =>
     )
   `;
 
+/**
+ * Retrieves recent calendar events that have already occurred.
+ * @param db - Database instance from openDatabase()
+ * @param options - Options to control limit and whether to include rescheduled events
+ * @returns Array of formatted calendar events sorted by start date (most recent first)
+ */
 export const getRecentEvents = (
   db: Database,
   options: GetEventsOptions = {},
@@ -53,6 +64,12 @@ export const getRecentEvents = (
   return events.map(formatEvent);
 };
 
+/**
+ * Retrieves upcoming calendar events scheduled for the future.
+ * @param db - Database instance from openDatabase()
+ * @param options - Options to control limit and whether to include rescheduled events
+ * @returns Array of formatted calendar events sorted by start date (earliest first)
+ */
 export const getUpcomingEvents = (
   db: Database,
   options: GetEventsOptions = {},
@@ -83,6 +100,12 @@ export const getUpcomingEvents = (
   return events.map(formatEvent);
 };
 
+/**
+ * Retrieves calendar events within a specified date range.
+ * @param db - Database instance from openDatabase()
+ * @param options - Date range options including start date, end date, and whether to include rescheduled events
+ * @returns Array of formatted calendar events sorted by start date
+ */
 export const getEventsByDateRange = (
   db: Database,
   options: DateRangeOptions,
@@ -119,6 +142,12 @@ export const getEventsByDateRange = (
   return events.map(formatEvent);
 };
 
+/**
+ * Searches for calendar events by title/summary text.
+ * @param db - Database instance from openDatabase()
+ * @param options - Search options including query text, limit, time range filter, and whether to include rescheduled events
+ * @returns Array of formatted calendar events matching the search query
+ */
 export const searchEvents = (
   db: Database,
   options: SearchOptions,
@@ -163,6 +192,12 @@ export const searchEvents = (
   return events.map(formatEvent);
 };
 
+/**
+ * Retrieves all calendar events for today.
+ * @param db - Database instance from openDatabase()
+ * @param includeRescheduled - Whether to include events that have been rescheduled
+ * @returns Object containing today's date and array of formatted events
+ */
 export const getTodaysEvents = (
   db: Database,
   includeRescheduled = false,
@@ -213,6 +248,12 @@ export const getTodaysEvents = (
   };
 };
 
+/**
+ * Retrieves detailed information for a specific calendar event.
+ * @param db - Database instance from openDatabase()
+ * @param eventId - The unique identifier (ROWID) of the event
+ * @returns Formatted detailed event information or null if not found
+ */
 export const getEventDetails = (
   db: Database,
   eventId: number,

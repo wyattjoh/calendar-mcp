@@ -1,6 +1,6 @@
 {
   "name": "@wyattjoh/calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "exports": "./mod.ts",
   "imports": {
     "@db/sqlite": "jsr:@db/sqlite@^0.12.0"
