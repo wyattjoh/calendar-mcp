@@ -71,51 +71,64 @@ deno run --allow-read --allow-env --allow-ffi --allow-sys mod.ts
 ## MCP Tools
 
 ### get-recent-events
+
 Retrieve recent past calendar events.
 
 **Parameters:**
+
 - `limit` (number, optional): Number of events to retrieve (1-100, default: 10)
 - `includeRescheduled` (boolean, optional): Include original rescheduled events (default: false)
 
 ### get-upcoming-events
+
 Retrieve upcoming calendar events.
 
 **Parameters:**
+
 - `limit` (number, optional): Number of events to retrieve (1-100, default: 10)
 - `includeRescheduled` (boolean, optional): Include original rescheduled events (default: false)
 
 ### get-events-by-date-range
+
 Retrieve calendar events within a specific date range.
 
 **Parameters:**
+
 - `startDate` (string, required): Start date in ISO format (e.g., "2024-01-01")
 - `endDate` (string, required): End date in ISO format (e.g., "2024-01-31")
 - `includeRescheduled` (boolean, optional): Include original rescheduled events (default: false)
 
 ### search-events
+
 Search for calendar events by title/summary.
 
 **Parameters:**
+
 - `query` (string, required): Search query for event titles
 - `limit` (number, optional): Maximum number of results (1-100, default: 20)
 - `timeRange` (string, optional): Time range to search - "all", "past", or "future" (default: "all")
 - `includeRescheduled` (boolean, optional): Include original rescheduled events (default: false)
 
 ### get-todays-events
+
 Get all events scheduled for today.
 
 **Parameters:**
+
 - `includeRescheduled` (boolean, optional): Include original rescheduled events (default: false)
 
 ### get-event-details
+
 Get detailed information about a specific calendar event.
 
 **Parameters:**
+
 - `eventId` (number, required): The ROWID of the event
 
 ## Response Format
 
 Standard event response:
+
 ```json
 {
   "id": 12345,
@@ -129,6 +142,7 @@ Standard event response:
 ```
 
 Detailed event response (from get-event-details):
+
 ```json
 {
   "id": 12345,

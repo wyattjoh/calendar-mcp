@@ -15,9 +15,7 @@ export const openDatabase = (dbPath: string = CALENDAR_DB_PATH): Database =>
   new Database(dbPath, { readonly: true });
 
 const buildExcludeRescheduledClause = (includeRescheduled: boolean): string =>
-  includeRescheduled
-    ? ""
-    : `
+  includeRescheduled ? "" : `
     AND ROWID NOT IN (
       SELECT orig_item_id 
       FROM CalendarItem 
@@ -27,7 +25,7 @@ const buildExcludeRescheduledClause = (includeRescheduled: boolean): string =>
 
 export const getRecentEvents = (
   db: Database,
-  options: GetEventsOptions = {}
+  options: GetEventsOptions = {},
 ): FormattedEvent[] => {
   const { limit = 10, includeRescheduled = false } = options;
 
@@ -57,7 +55,7 @@ export const getRecentEvents = (
 
 export const getUpcomingEvents = (
   db: Database,
-  options: GetEventsOptions = {}
+  options: GetEventsOptions = {},
 ): FormattedEvent[] => {
   const { limit = 10, includeRescheduled = false } = options;
 
@@ -87,7 +85,7 @@ export const getUpcomingEvents = (
 
 export const getEventsByDateRange = (
   db: Database,
-  options: DateRangeOptions
+  options: DateRangeOptions,
 ): FormattedEvent[] => {
   const { startDate, endDate, includeRescheduled = false } = options;
 
@@ -114,13 +112,16 @@ export const getEventsByDateRange = (
     ORDER BY start_date ASC
   `;
 
-  const events = db.prepare(query).all(startTimestamp, endTimestamp) as CalendarEvent[];
+  const events = db.prepare(query).all(
+    startTimestamp,
+    endTimestamp,
+  ) as CalendarEvent[];
   return events.map(formatEvent);
 };
 
 export const searchEvents = (
   db: Database,
-  options: SearchOptions
+  options: SearchOptions,
 ): FormattedEvent[] => {
   const {
     query,
@@ -129,12 +130,11 @@ export const searchEvents = (
     includeRescheduled = false,
   } = options;
 
-  const timeClause =
-    timeRange === "past"
-      ? `AND datetime(start_date + ${CORE_DATA_EPOCH}, 'unixepoch') <= datetime('now')`
-      : timeRange === "future"
-      ? `AND datetime(start_date + ${CORE_DATA_EPOCH}, 'unixepoch') > datetime('now')`
-      : "";
+  const timeClause = timeRange === "past"
+    ? `AND datetime(start_date + ${CORE_DATA_EPOCH}, 'unixepoch') <= datetime('now')`
+    : timeRange === "future"
+    ? `AND datetime(start_date + ${CORE_DATA_EPOCH}, 'unixepoch') > datetime('now')`
+    : "";
 
   const sqlQuery = `
     SELECT 
@@ -156,13 +156,16 @@ export const searchEvents = (
     LIMIT ?
   `;
 
-  const events = db.prepare(sqlQuery).all(`%${query}%`, limit) as CalendarEvent[];
+  const events = db.prepare(sqlQuery).all(
+    `%${query}%`,
+    limit,
+  ) as CalendarEvent[];
   return events.map(formatEvent);
 };
 
 export const getTodaysEvents = (
   db: Database,
-  includeRescheduled = false
+  includeRescheduled = false,
 ): { date: string; events: FormattedEvent[] } => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -201,7 +204,7 @@ export const getTodaysEvents = (
     todayTimestamp,
     tomorrowTimestamp,
     todayTimestamp,
-    tomorrowTimestamp
+    tomorrowTimestamp,
   ) as CalendarEvent[];
 
   return {
@@ -212,7 +215,7 @@ export const getTodaysEvents = (
 
 export const getEventDetails = (
   db: Database,
-  eventId: number
+  eventId: number,
 ): FormattedDetailedEvent | null => {
   const query = `
     SELECT 
