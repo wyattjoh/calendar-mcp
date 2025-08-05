@@ -28,11 +28,11 @@ export interface FormattedEvent {
 }
 
 export interface FormattedDetailedEvent extends FormattedEvent {
-  description?: string;
-  url?: string;
-  location?: string;
-  recurrenceRule?: string;
-  calendar?: string;
+  description: string | undefined;
+  url: string | undefined;
+  location: string | undefined;
+  recurrenceRule: string | undefined;
+  calendar: string | undefined;
 }
 
 export interface GetEventsOptions {
