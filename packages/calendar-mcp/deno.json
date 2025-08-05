@@ -1,6 +1,6 @@
 {
   "name": "@wyattjoh/calendar-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "exports": "./mod.ts",
   "imports": {
     "@modelcontextprotocol/sdk": "npm:@modelcontextprotocol/sdk@^1.17.0",
